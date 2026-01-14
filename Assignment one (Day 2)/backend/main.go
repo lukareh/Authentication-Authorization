@@ -55,6 +55,11 @@ func init() {
 }
 
 func main() {
+	// Serve the frontend
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "../frontend/index.html")
+	})
+
 	// Enable CORS
 	http.HandleFunc("/api/access", corsMiddleware(handleAccess))
 

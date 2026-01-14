@@ -38,7 +38,7 @@ func main() {
 
 	// Setup routes
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, "index.html")
+		http.ServeFile(w, r, "../../index.html")
 	})
 	http.HandleFunc("/register", enableCORS(authHandler.RegisterUser))
 	http.HandleFunc("/generate", enableCORS(authHandler.GenerateToken))
