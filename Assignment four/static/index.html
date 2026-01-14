@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mock SSO Flow - Authorization Code Exchange</title>
+</head>
+<body>
+    <h1>Mock SSO Flow</h1>
+    <p>OAuth 2.0 Authorization Code Exchange Demo</p>
+    <hr>
+
+    <div id="step1-screen">
+        <h2>Step 1: Redirect to Identity Provider</h2>
+        <p>Click below to start the SSO flow</p>
+        <button id="redirect-btn">Redirecting to Identity Provider...</button>
+        <div id="redirect-message" hidden>
+            <p>✓ Redirecting to Identity Provider...</p>
+        </div>
+    </div>
+    <div id="step2-screen" hidden>
+        <h2>Step 2: IdP Login</h2>
+        <form id="login-form">
+            <div>
+                <label for="username">Username:</label><br>
+                <input type="text" id="username" required placeholder="Enter username">
+            </div>
+            <br>
+            <div>
+                <label for="password">Password:</label><br>
+                <input type="password" id="password" required placeholder="Enter password">
+            </div>
+            <br>
+            <p>Any username and password will be accepted</p>
+            <button type="submit">Login</button>
+        </form>
+        <div id="auth-code-display" hidden>
+            <h3>✓ Credentials Validated Successfully</h3>
+            <p><strong>Program prints:</strong></p>
+            <p><strong>Auth Code: <span id="auth-code"></span></strong></p>
+            <br>
+            <button id="proceed-to-exchange">Proceed to Token Exchange</button>
+        </div>
+    </div>
+
+    <div id="step3-screen" hidden>
+        <h2>Step 3: Token Exchange</h2>
+        <p>User enters the auth code:</p>
+        <label for="code-input">Authorization Code:</label><br>
+        <input type="text" id="code-input" size="50" required placeholder="Enter auth code">
+        <br><br>
+        <button id="exchange-btn">Exchange Auth Code for Tokens</button>
+        
+        <div id="token-display" hidden>
+            <h3>✓ Program returns:</h3>
+            <p><strong>ID Token:</strong></p>
+            <textarea id="id-token" readonly rows="3" cols="80"></textarea>
+            <br><br>
+            <p><strong>Access Token:</strong></p>
+            <textarea id="access-token" readonly rows="3" cols="80"></textarea>
+            <br><br>
+            <p><strong>Token Type:</strong> <span id="token-type"></span></p>
+            <p><strong>Expires In:</strong> <span id="expires-in"></span> seconds</p>
+            <br>
+            <button id="proceed-to-verify">Proceed to Token Verification</button>
+        </div>
+    </div>
+
+    <div id="step4-screen" hidden>
+        <h2>Step 4: Token Verification</h2>
+        <p>Paste the tokens below to verify:</p>
+        <p>We can see that the tokens are invalid by cutting down some part of the tokens </p>
+        
+        <label for="verify-id-token">ID Token:</label><br>
+        <textarea id="verify-id-token" rows="3" cols="80" required></textarea>
+        <br><br>
+        
+        <label for="verify-access-token">Access Token:</label><br>
+        <textarea id="verify-access-token" rows="3" cols="80" required></textarea>
+        <br><br>
+        
+        <button id="verify-btn">Verify Tokens</button>
+        
+        <div id="verification-result" hidden></div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

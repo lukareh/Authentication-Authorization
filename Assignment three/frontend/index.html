@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Access System</title>
+</head>
+<body>
+    <h1>Document Access System</h1>
+    
+    <h2>Access a Document</h2>
+    
+    <form id="accessForm">
+        <div>
+            <label for="username">Username:</label><br>
+            <input type="text" id="username" name="username" required>
+            <br><br>
+        </div>
+        
+        <div>
+            <label for="documentId">Document ID:</label><br>
+            <input type="number" id="documentId" name="documentId" required>
+            <br><br>
+        </div>
+        
+        <button type="submit">Access Document</button>
+    </form>
+    
+    <div id="result"></div>
+    
+    <hr>
+    
+    <h3>Available Users:</h3>
+    <ul>
+        <li><strong>userA</strong> - Regular user (owns documents 1 and 3)</li>
+        <li><strong>userB</strong> - Regular user (owns document 2)</li>
+        <li><strong>admin</strong> - Admin user (can access all documents)</li>
+    </ul>
+    
+    <h3>Available Documents:</h3>
+    <ul>
+        <li><strong>Document 1</strong> - Owned by userA</li>
+        <li><strong>Document 2</strong> - Owned by userB</li>
+        <li><strong>Document 3</strong> - Owned by userA</li>
+    </ul>
+
+    <script>
+        const form = document.getElementById('accessForm');
+        const resultDiv = document.getElementById('result');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const documentId = parseInt(document.getElementById('documentId').value);
+            
+            resultDiv.innerHTML = '<p>Checking access...</p>';
+            
+            try {
+                const response = await fetch('http://localhost:8080/api/access', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        documentId: documentId
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    resultDiv.innerHTML = `
+                        <h3 style="color: green;">${data.message}</h3>
+                        <p><strong>Content:</strong> ${data.content}</p>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <h3 style="color: red;">${data.message}</h3>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <h3 style="color: red;">Error</h3>
+                    <p>Failed to connect to server. Make sure the backend is running on port 8080.</p>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+{
+	"info": {
+		"name": "Secure Login System with MFA",
+		"description": "API endpoints for authentication system with bcrypt password hashing and OTP-based MFA",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Register User",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"john\",\n  \"password\": \"secret123\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"register"
+					]
+				},
+				"description": "Register a new user with username and password. Password must be at least 6 characters and will be hashed with bcrypt before storage."
+			},
+			"response": []
+		},
+		{
+			"name": "Login (Get OTP)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"john\",\n  \"password\": \"secret123\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"login"
+					]
+				},
+				"description": "Verify user credentials. On success, a 6-digit OTP will be generated and displayed in the server terminal. Check the terminal output for the OTP code."
+			},
+			"response": []
+		},
+		{
+			"name": "Verify OTP",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"john\",\n  \"otp\": \"123456\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/verify-otp",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"verify-otp"
+					]
+				},
+				"description": "Verify the OTP code received from the server terminal. OTP expires after 5 minutes and can only be used once."
+			},
+			"response": []
+		}
+	]
+}

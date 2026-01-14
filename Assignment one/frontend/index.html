@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Login System with MFA</title>
+</head>
+<body>
+    <h1>Secure Login System with MFA</h1>
+    <hr>
+
+    <div id="message"></div>
+
+    <div>
+        <button onclick="switchTab('register')">Register</button>
+        <button onclick="switchTab('login')">Login</button>
+    </div>
+    <hr>
+
+    <!-- Register Form -->
+    <div id="register-section">
+        <h2>Register</h2>
+        <form id="register-form" onsubmit="handleRegister(event)">
+            <div>
+                <label for="reg-username">Username:</label><br>
+                <input type="text" id="reg-username" required placeholder="Enter username">
+            </div>
+            <br>
+            <div>
+                <label for="reg-password">Password:</label><br>
+                <input type="password" id="reg-password" required placeholder="Minimum 6 characters">
+            </div>
+            <br>
+            <button type="submit">Register</button>
+        </form>
+    </div>
+
+    <!-- Login Form -->
+    <div id="login-section" style="display:none;">
+        <h2>Login</h2>
+        <form id="login-form" onsubmit="handleLogin(event)">
+            <div>
+                <label for="login-username">Username:</label><br>
+                <input type="text" id="login-username" required placeholder="Enter username">
+            </div>
+            <br>
+            <div>
+                <label for="login-password">Password:</label><br>
+                <input type="password" id="login-password" required placeholder="Enter password">
+            </div>
+            <br>
+            <button type="submit">Login</button>
+        </form>
+
+        <!-- OTP Verification Section -->
+        <div id="otp-section" style="display:none;">
+            <hr>
+            <h3>MFA Verification</h3>
+            <p>Check your server terminal for your OTP.</p>
+            
+            <form id="otp-form" onsubmit="handleVerifyOTP(event)">
+                <div>
+                    <label for="otp-input">Enter OTP from Terminal:</label><br>
+                    <input type="text" id="otp-input" required placeholder="Enter 6-digit OTP" maxlength="6" pattern="\d{6}">
+                </div>
+                <br>
+                <button type="submit">Verify OTP</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Message -->
+    <div id="welcome-section" style="display:none;">
+        <h2>Login Successful!</h2>
+        <p>Welcome back, <span id="welcome-username"></span>!</p>
+        <button onclick="resetApp()">Logout</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

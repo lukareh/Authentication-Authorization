@@ -1,0 +1,130 @@
+{
+	"info": {
+		"_postman_id": "jwt-auth-collection",
+		"name": "JWT Authentication System",
+		"description": "Collection for testing user registration, JWT generation and validation endpoints",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Register User",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"john_doe\",\n    \"role\": \"admin\",\n    \"designation\": \"Software Engineer\",\n    \"age\": 28\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"register"
+					]
+				},
+				"description": "Registers a new user with username, role, designation, and age. The user data is stored in memory (map) and used for JWT generation."
+			},
+			"response": []
+		},
+		{
+			"name": "Generate JWT Token",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"john_doe\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/generate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"generate"
+					]
+				},
+				"description": "Generates a JWT token for a registered user. The token contains claims:\n- username: from user data\n- role: from user data\n- designation: from user data\n- age: from user data\n- exp: 5 minutes from now\n\nThe token is signed using HS256 algorithm."
+			},
+			"response": []
+		},
+		{
+			"name": "Validate JWT Token",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"token\": \"YOUR_JWT_TOKEN_HERE\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/validate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"validate"
+					]
+				},
+				"description": "Validates a JWT token by:\n1. Verifying the signature\n2. Checking expiration (rejects if expired)\n3. Decoding the payload\n\nReturns \"Token Valid\" with decoded claims (username, role, designation, age) if valid, or \"Token Invalid\" with error message if invalid or expired."
+			},
+			"response": []
+		},
+		{
+			"name": "Validate Expired Token (Test)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"token\": \"PASTE_TOKEN_AFTER_5_MINUTES\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/validate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"validate"
+					]
+				},
+				"description": "Test endpoint to validate an expired token. Generate a token and wait 5 minutes, then test it here to see the expiry handling in action."
+			},
+			"response": []
+		}
+	]
+}
